@@ -18,9 +18,13 @@ class TANKMASTER_API ATankAIController : public AAIController
 public:
 
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
 private:
 
+	// Get current controlled tank
 	ATank* GetControlledTank() const;
-	ATank* GetPlayerTank() const;
+
+	// Get location of the player's tank
+	FVector GetPlayerTankLocation() const;
 };

@@ -35,10 +35,11 @@ void ATankPlayerController::AimAtCrossHair()
 	FVector OutHitLocation = FVector(0);
 	FString OutHitObject = "Nothing";
 
-	if (GetCrosshairHitLocation(OutHitLocation, OutHitObject)) {
-		
+	if (GetCrosshairHitLocation(OutHitLocation, OutHitObject)) 
+	{
+		GetControlledTank()->AimAt(OutHitLocation);
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Targeting: %s, Hit Location: %s"), *OutHitObject, *OutHitLocation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Targeting: %s, Hit Location: %s"), *OutHitObject, *OutHitLocation.ToString());
 }
 
 // Returns true if crosshair hits landscape AND returns OUT parameter of hit location

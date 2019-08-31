@@ -5,26 +5,33 @@
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 
-void ATankAIController::BeginPlay() {
+void ATankAIController::BeginPlay() 
+{
 
 	Super::BeginPlay();
 
-	ATank* ControlledAITank = GetPlayerTank();
+	FVector ControlledAITank = GetPlayerTankLocation(); // TODO make sure it doesnt need to be ATank*
+}
+
+void ATankAIController::Tick(float DeltaTime) 
+{
+	Super::Tick(DeltaTime);
+
+	GetControlledTank()->AimAt(GetPlayerTankLocation());
 }
 
 ATank* ATankAIController::GetControlledTank() const
 {
 	ATank* ControlledAITank = Cast<ATank>(GetPawn());
 
-	if (ControlledAITank) {
-		UE_LOG(LogTemp, Warning, TEXT("AIController possessing Tank: %s"), *ControlledAITank->GetName());
+	if (!ControlledAITank) {
+		UE_LOG(LogTemp, Error, TEXT("AIController unable to possess a Tank"));
 	}
-	else UE_LOG(LogTemp, Error, TEXT("AIController unable to possess a Tank"));
 
 	return ControlledAITank;
 }
 
-ATank* ATankAIController::GetPlayerTank() const
+FVector ATankAIController::GetPlayerTankLocation() const
 {
 	APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
 	ATank* PlayerTank = nullptr;
@@ -34,5 +41,5 @@ ATank* ATankAIController::GetPlayerTank() const
 	}
 	else UE_LOG(LogTemp, Warning, TEXT("AIController cannot find player tank"));
 
-	return PlayerTank;
+	return PlayerTank->GetActorLocation();
 }
